@@ -3,7 +3,7 @@
 
 #include <dlfcn.h>
 
-MYMODCFG(net.notkarolek.removeeffects, RemoveEffects, 1.0, notkarolek)
+MYMODCFG(net.notkarolek.removeeffects, RemoveEffects, 1.1, notkarolek)
 
 struct Group { const char* key; const char* const* symbols; };
 
@@ -51,7 +51,11 @@ static const Group GROUPS[] = {
     { "water_effects", WATER },
 };
 
+#ifdef __aarch64__
+static const unsigned char RETURN[4] = { 0xC0, 0x03, 0x5F, 0xD6 };
+#else
 static const unsigned char RETURN[4] = { 0x70, 0x47, 0x00, 0xBF };
+#endif
 
 ON_MOD_LOAD()
 {
